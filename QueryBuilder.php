@@ -2,6 +2,8 @@
 
 namespace leandrogehlen\querybuilder;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * QueryBuilder renders a jQuery QueryBuilder component.
  *
@@ -18,11 +20,19 @@ class QueryBuilder extends \soluto\plugin\Widget {
     /**
      * @inheritdoc
      */
-    protected function assets()
-    {
-        return [
-            QueryBuilderAsset::className()
-        ];
-    }
+	protected function assets()
+	{
+
+		$assets = [
+			QueryBuilderAsset::class
+		];
+
+		if ($langCode = ArrayHelper::getValue($this->pluginOptions,'lang_code')) {
+			$langCode = ucfirst($langCode);
+			$assets[] =  __NAMESPACE__ . "\i18n\QueryBuilder{$langCode}Asset";
+		}
+
+		return $assets;
+	}
 
 }
